@@ -28,7 +28,7 @@
 
     NSLog(@"ODD WORD RESULT: %@", [self solvePhraseForOddWordProblem:@"This is an odd word problem solver."]);
 
-    //NSLog(@"COMPRESS WORD TEST: %@", [self compressString:@"Compressss this string to aaaaa93kddeeeeccccc"]);
+    NSLog(@"COMPRESS WORD TEST: %@", [self compressString:@"Compressss this string to aaaaa93kddeeeeccccc"]);
 
 }
 
@@ -153,31 +153,29 @@
 
 - (NSString *) fixWord: (NSString *)inputWord
 {
-    NSMutableArray *arrayOfLetters = [NSMutableArray array];
-    int indexOfLetterCounter = 0;
+
+    NSMutableArray *arrayOfFixedLetters = [NSMutableArray array];
+    int indexOfFirstRepeatedLetter = 0;
 
     for (int i=0; i<inputWord.length; i++) {
         NSString *eachLetter = [NSString stringWithFormat:@"%C", [inputWord characterAtIndex:i]];
-        [arrayOfLetters addObject:eachLetter];
 
-        // evaluate letters to check for repeats and get their indexes?
+        // get number of occurences for each letter
 
-        if (i<inputWord.length-1) {
-            NSString *currentLetter = [NSString stringWithFormat:@"%C", [inputWord characterAtIndex:i]];
-            NSString *nextLetter = [NSString stringWithFormat:@"%C", [inputWord characterAtIndex:i+1]];
+        NSUInteger numberOfOccurrences = [[inputWord componentsSeparatedByString:eachLetter] count] - 1;
+        NSLog(@"numberOfOccurrences of %@ is %i", eachLetter, numberOfOccurrences);
 
-            //NSLog(@"index %i currentLetter %@", i, currentLetter);
-            //NSLog(@"nextLetter %@", nextLetter);
-
-            if ([currentLetter isEqualToString: nextLetter]) {
-                // get the index of the nextLetter. The first time through, this is the letter to be replaced with a number
-
-                if (indexOfLetterCounter == 0) {
-                    indexOfLetterCounter = i+1;
-                }
-            }
+        if (numberOfOccurrences == 1)
+        {
+            [arrayOfFixedLetters addObject:eachLetter];
+        }
+        else 
+        {
+            indexOfFirstRepeatedLetter = i;
+            [arrayOfFixedLetters addObject:eachLetter];
 
         }
+
 
     }
 
